@@ -1,0 +1,26 @@
+#EventType: B+ meson to D0 and pi+
+#Documentation: Forces the B+ Meson decay to D0 and pi+
+#Responsible: Ting-Kai Hsu
+#Email: tingkaihsu0924@gmail.com
+#Date: 20240519
+Decay Upsilon(4S)
+1.000 B+  B-  VSS;
+Enddecay
+#
+Decay B+
+1.000 anti-D0 pi+  PHSP;
+Enddecay
+#
+Decay B-
+1.000 D0 pi-  PHSP;
+Enddecay
+#
+Decay D0
+1.000 K- pi+  PHSP;
+Enddecay
+#
+Decay anti-D0
+1.000 K+ pi-  PHSP;
+Enddecay
+#
+End

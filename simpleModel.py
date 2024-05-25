@@ -8,7 +8,7 @@ class _DotDict:
 def simple_model_base(features=None, setting=None, name='Simple_Model'):
     with tf.name_scope(name):
         # inputs = keras.Input(shape=input_shape)
-        hidden = keras.layers.Dense(num_units, activation='relu')(features)
+        hidden = keras.layers.Dense(128, activation='relu')(features)
         out = keras.layers.Dense(setting.num_class, activation='linear')(hidden)
         return out
     

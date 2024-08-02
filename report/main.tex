@@ -51,7 +51,7 @@ tabsize=3
 \maketitle
 \tableofcontents
 \section{Introduction}
-In this report, we build out a simple neural network model in order to show ParticleNet isn't suitable for B-meson decay.
+In this report, we build out a simple neural network model in order to show ParticleNet\cite{Qu:2019gqs} isn't suitable for B-meson decay.
 The architecture of the simple model would be
 \begin{figure}[H]
     \centering
@@ -77,6 +77,13 @@ Total available events for training, validation, and test are listed,
         \end{tabular}
     \label{label}
 \end{table}
+\subsection{Simulation}
+Please ref \href{https://www.notion.so/Setting-Up-the-Environment-of-EvtGen-7d07a52f8ac642f6bb118970e75a1deeURL}{Leo's notion}, and the compiling commend would be
+\begin{lstlisting}
+    export LD_LIBRARY_PATH=/usr/local/lib
+    g++ exampleWriteHepMC.cc -DEVTGEN_HEPMC3 -DEVTGEN_EXTERNAL -lEvtGen -lEvtGenExternal -lHepMC3
+\end{lstlisting}
+
 \section{Results for 200 epochs}
 The results of simple model and ParticleNet model are listed, respectively.
 Note that the output is only mass prediction.
@@ -96,4 +103,22 @@ Note that the output is only mass prediction.
 ParticleNet model deals with jet tagging, and the model has made use of the spatial properties of jet.
 However, B-meson decay doesn't have such spatial properties, so the performance of ParticleNet isn't good even in simple decay case.
 The simple model can only deal with the case with fixed input, which makes it impractical in the physical process in reality.
+\section{Particle Transformer}
+We instead try to apply state-of-art Particle Transformer\cite{Qu:2022mxj} as our new model for B-meson decay.
+There are two additional kinds of variables that we didn't use in ParticleNet training, which are particle identification\footnote{We only identify the charge of particles, but the training in the model includes electron, muon, photon, and so on detections.} and trajectory displacement (which would record the impact parameter, and I'm not sure whether it is practical to use in B-meson decay.)
+Moreover, they not only input the data of the particles but also include their connection between each other, that is, they pair the particle and feed the model with some pair-together features, called \textit{interaction features}.
+The only thing that seems to be able to be applied to our case is the Lorentz-invariant mass, which is defined as,
+\begin{equation}
+    m^2 = (E_a + E_b)^2 - |\mathbf{p}_a + \mathbf{p}_b|^2
+\end{equation}
+where $a$ and $b$ is a pair of particles.
+Other interaction features would involve transverse momentum or azimuth angle which are seldom used in no-jet situation.
+\subsection{Model Training}
+After cloning everything from the \href{https://github.com/jet-universe/particle_transformer}{github homepage}, we can train the example.
+However, the dataset files of JetClass are very large, so we don't use them to train.
+I decide to download the dataset of QuarkGluon.
+
+
+\bibliographystyle{plain}
+\bibliography{ref}
 \end{document}
